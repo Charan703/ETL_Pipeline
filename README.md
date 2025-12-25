@@ -1,82 +1,168 @@
-ETL Pipeline Project
-===================
+# 🚀 NASA APOD ETL Pipeline
 
-This project implements an ETL (Extract, Transform, Load) pipeline using Apache Airflow and PostgreSQL for data processing and storage.
+> **Extract, Transform, Load pipeline for NASA's Astronomy Picture of the Day using Apache Airflow and PostgreSQL**
 
-Overview
-========
+## 📋 Overview
 
-The ETL pipeline extracts data from various sources, transforms it according to business requirements, and loads it into a PostgreSQL database for analytics and reporting.
+This project implements an automated ETL pipeline that:
+- 🌌 Extracts daily astronomy pictures from NASA's APOD API
+- 🔄 Transforms the data for storage optimization
+- 💾 Loads processed data into PostgreSQL database
+- 📊 Enables analytics and reporting on astronomical content
 
-Project Structure
-================
+## 🏗️ Project Structure
 
-- **dags/**: Contains Airflow DAG definitions for ETL workflows
-- **sql/**: SQL scripts for database schema creation and data transformations
-- **config/**: Configuration files for database connections and pipeline settings
-- **scripts/**: Utility scripts for data processing and validation
-- **requirements.txt**: Python dependencies including PostgreSQL drivers
-- **Dockerfile**: Container configuration with PostgreSQL client tools
-
-Database Configuration
-=====================
-
-**PostgreSQL Connection Details:**
-- Host: localhost
-- Port: 5432
-- Database: postgres
-- Username: postgres
-- Password: postgres
-
-**Required Python Packages:**
 ```
-psycopg2-binary
-pandas
-sqlalchemy
+ETL_pipeline/
+├── 📁 dags/              # Airflow DAG definitions
+│   └── ETL.py           # Main ETL workflow
+├── 📁 sql/              # Database schema scripts
+├── 📁 config/           # Configuration files
+├── 📁 scripts/          # Utility scripts
+├── 📄 requirements.txt  # Python dependencies
+├── 🐳 Dockerfile        # Container configuration
+└── 🐳 docker-compose.yml # Multi-container setup
 ```
 
-Setup Instructions
-=================
+## 🛠️ Technology Stack
 
-1. **Start the Environment:**
-   ```bash
-   astro dev start
-   ```
+- **🌊 Apache Airflow**: Workflow orchestration
+- **🚀 Astronomer CLI**: Pipeline deployment and management
+- **☁️ AWS RDS PostgreSQL**: Cloud database storage
+- **🐍 Python**: Data processing
+- **🐳 Docker**: Containerization
+- **🔗 NASA API**: Data source
+- **👁️ DBeaver**: Database visualization and management
 
-2. **Access Services:**
-   - Airflow UI: http://localhost:8080
-   - PostgreSQL: localhost:5432
+## ⚙️ Setup Instructions
 
-3. **Configure Database Connection:**
-   - Connection ID: postgres_default
-   - Connection Type: Postgres
-   - Host: postgres
-   - Schema: postgres
-   - Login: postgres
-   - Password: postgres
+### 1. 🚀 Start the Environment with Astronomer CLI
+```bash
+# Initialize Astronomer project
+astro dev init
+
+# Start local Airflow environment
+astro dev start
+```
+
+### 2. ☁️ AWS RDS Setup
+- Create PostgreSQL instance on AWS RDS
+- Configure security groups for access
+- Note down connection details (endpoint, port, database name)
+
+### 3. 🌐 Access Services
+- **Airflow UI**: http://localhost:8080
+- **AWS RDS PostgreSQL**: Your RDS endpoint:5432
+- **DBeaver**: Connect using RDS credentials
+
+### 4. 🔧 Configure Database Connection
+Create a new connection in Airflow UI:
+- **Connection ID**: `postgres_connection`
+- **Connection Type**: Postgres
+- **Host**: Your AWS RDS endpoint
+- **Schema**: Your database name
+- **Port**: `5432`
+- **Login**: Your RDS username
+- **Password**: Your RDS password
+
+## 🎯 Pipeline Features
+
+### 📥 Data Extraction
+- 🌟 NASA APOD API integration
+- 🔄 Daily automated data retrieval
+- 🛡️ Error handling and retry logic
+
+### 🔄 Data Transformation
+- 📝 Data cleaning and validation
+- 🎯 Field selection and formatting
+- 📊 Data quality checks
+
+### 📤 Data Loading
+- ⚡ Efficient bulk loading
+- 🔒 Transaction safety
+- 📈 Performance optimization
+
+### 📊 Monitoring & Logging
+- 📋 Pipeline status tracking
+- 🚨 Error alerting
+- 📝 Comprehensive logging
+
+## 🚀 Deployment
+
+### 🌟 Local Development
+```bash
+# Start local development environment
+astro dev start
+
+# View logs
+astro dev logs
+
+# Stop environment
+astro dev stop
+```
+
+### ☁️ Production Deployment with Astronomer
+```bash
+# Deploy to Astronomer Cloud
+astro deploy
+
+# Check deployment status
+astro deployment list
+```
+
+### 👁️ Data Visualization with DBeaver
+1. **Install DBeaver**: Download from https://dbeaver.io/
+2. **Connect to AWS RDS**:
+   - Host: Your RDS endpoint
    - Port: 5432
+   - Database: Your database name
+   - Username/Password: Your RDS credentials
+3. **View Data**: Browse `nasa_apod` table and run queries
 
-ETL Pipeline Features
-====================
+## 🚀 Usage
 
-- **Data Extraction**: Support for multiple data sources (CSV, JSON, APIs)
-- **Data Transformation**: Cleaning, validation, and business logic application
-- **Data Loading**: Efficient bulk loading into PostgreSQL tables
-- **Error Handling**: Comprehensive logging and error recovery
-- **Monitoring**: Pipeline status tracking and alerting
+1. **📂 Setup Data Sources**: Configure NASA API access
+2. **⚙️ Configure Connections**: Set up database connections in Airflow
+3. **▶️ Run Pipeline**: Execute the `nasa_apod_postgres` DAG
+4. **📊 Monitor Results**: Check Airflow UI and PostgreSQL for data
 
-Usage
-=====
+## 📊 Database Schema
 
-1. Place source data files in the `include/data/` directory
-2. Configure connection parameters in `airflow_settings.yaml`
-3. Run ETL DAGs from the Airflow UI
-4. Monitor pipeline execution and check PostgreSQL for loaded data
+The pipeline creates a `nasa_apod` table with:
+- 🆔 `id`: Primary key
+- 📝 `title`: Picture title
+- 📖 `explanation`: Detailed description
+- 🔗 `url`: Image URL
+- 📅 `date`: Publication date
+- 🎬 `media_type`: Content type (image/video)
 
-Troubleshooting
-==============
+## 🔧 Troubleshooting
 
-- Ensure PostgreSQL container is running before starting DAGs
-- Check connection settings if database errors occur
-- Verify data file formats match pipeline expectations
-- Review Airflow logs for detailed error information
+### Common Issues:
+- 🐘 **AWS RDS Connection**: Ensure security groups allow inbound connections
+- 🚀 **Astronomer CLI**: Verify CLI installation and authentication
+- 🔑 **API Access**: Verify NASA API key configuration
+- 📁 **File Permissions**: Check Docker volume permissions
+- 🌐 **Network**: Confirm VPC and subnet configurations
+- 👁️ **DBeaver Connection**: Verify RDS endpoint and credentials
+
+### 📝 Logs Location:
+- Airflow logs: Available in Airflow UI or `astro dev logs`
+- Astronomer deployment logs: `astro deployment logs`
+- Container logs: `docker-compose logs`
+
+## 🤝 Contributing
+
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch
+3. 💻 Make your changes
+4. 🧪 Test thoroughly
+5. 📤 Submit a pull request
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+---
+
+**🌟 Happy Data Engineering! 🌟**
